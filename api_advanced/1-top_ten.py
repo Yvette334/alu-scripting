@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-'''A module containing functions for working with the Reddit API.
+'''A module containing a function that queries the Reddit API and prints the titles of the first 10 "top" posts
+listed for a given subreddit. If the subreddit does not exist, it prints None.
 '''
 
 import requests
@@ -23,6 +24,7 @@ def top_ten(subreddit):
             'Edg/97.0.1072.62'
         ])
     }
+
     sort = 'top'
     time_filter = 'all'  # Specify the time period for 'top' posts (can be 'all', 'day', 'week', etc.)
     limit = 10
