@@ -42,4 +42,4 @@ def top_ten(subreddit):
         except KeyError:
             print(None)
     else:
-        print('OK')  # Output OK only for non-existing subreddit
+        print('OK') 
