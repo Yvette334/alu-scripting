@@ -34,12 +34,14 @@ def top_ten(subreddit):
         allow_redirects=False
     )
 
-    # Check if the status code is 200
+    # If the status code is 200, the subreddit exists
     if res.status_code == 200:
         try:
+            # Print the titles of the top 10 posts
             for post in res.json()['data']['children'][0:10]:
                 print(post['data']['title'])
         except KeyError:
             print(None)
     else:
-        print('OK') 
+
+        print("OK") 
