@@ -1,6 +1,13 @@
+#!/usr/bin/python3
+'''
+A module containing functions for working with the Reddit API.
+The module retrieves the titles of the top 10 posts from a given subreddit.
+'''
+
 import requests
 
 BASE_URL = 'https://www.reddit.com'
+'''Reddit's base API URL.'''
 
 def top_ten(subreddit):
     '''Retrieves the title of the top ten posts from a given subreddit.'''
@@ -26,7 +33,8 @@ def top_ten(subreddit):
         headers=api_headers,
         allow_redirects=False
     )
-    # Check if the status code is 200 and if data is present
+
+    # Check if the status code is 200 and handle response accordingly
     if res.status_code == 200:
         try:
             for post in res.json()['data']['children'][0:10]:
@@ -35,5 +43,3 @@ def top_ten(subreddit):
             print(None)
     else:
         print('OK')
-
-
