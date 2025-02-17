@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 '''A module containing functions for working with the Reddit API.
 '''
+
 import requests
 
 
@@ -24,6 +25,8 @@ def top_ten(subreddit):
     }
     sort = 'top'
     limit = 10
+
+    # Make the GET request to Reddit's API
     res = requests.get(
         '{}/r/{}/.json?sort={}&limit={}'.format(
             BASE_URL,
@@ -32,10 +35,16 @@ def top_ten(subreddit):
             limit
         ),
         headers=api_headers,
-        allow_redirects=False
+        allow_redirects=False  # Prevent following redirects
     )
+    
+    # Check for a successful response (status code 200)
     if res.status_code == 200:
-        for post in res.json()['data']['children'][0:10]:
-            print(post['data']['title'])
+        try:
+            # Retrieve and print the top 10 posts from the response
+            for post in res.json()['data']['children'][0:10]:
+                print(post['data']['title'])
+        except (KeyError, ValueError):
+            print(None)
     else:
         print(None)
