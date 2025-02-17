@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 '''A module containing functions for working with the Reddit API.
 '''
+
 import requests
+
 
 def number_of_subscribers(subreddit):
     """Return the total number of subscribers on a given subreddit."""
@@ -20,3 +22,4 @@ def number_of_subscribers(subreddit):
         return 0
     
     return 0
+
