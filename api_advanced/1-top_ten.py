@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 '''A module containing functions for working with the Reddit API.
 '''
+
 import requests
 
 
@@ -23,19 +24,21 @@ def top_ten(subreddit):
         ])
     }
     sort = 'top'
+    time_filter = 'all'  # Specify the time period for 'top' posts (can be 'all', 'day', 'week', etc.)
     limit = 10
+    
     res = requests.get(
-        '{}/r/{}/.json?sort={}&limit={}'.format(
-            BASE_URL,
-            subreddit,
-            sort,
-            limit
-        ),
+        f'{BASE_URL}/r/{subreddit}/.json?sort={sort}&t={time_filter}&limit={limit}',
         headers=api_headers,
         allow_redirects=False
     )
+    
     if res.status_code == 200:
-        for post in res.json()['data']['children'][0:10]:
-            print(post['data']['title'])
+        try:
+            for post in res.json()['data']['children']:
+                print(post['data']['title'])
+        except (KeyError, ValueError):
+            print(None)
     else:
         print(None)
+
