@@ -34,7 +34,7 @@ def top_ten(subreddit):
         allow_redirects=False
     )
 
-    # Check if the status code is 200 and handle response accordingly
+    # Check if the status code is 200
     if res.status_code == 200:
         try:
             for post in res.json()['data']['children'][0:10]:
@@ -42,4 +42,4 @@ def top_ten(subreddit):
         except KeyError:
             print(None)
     else:
-        print('OK')
+        print('OK')  # Output OK only for non-existing subreddit
