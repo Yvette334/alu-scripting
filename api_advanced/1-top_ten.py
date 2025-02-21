@@ -1,4 +1,6 @@
-cript to print hot posts on a given Reddit subreddit.
+#!/usr/bin/python3
+"""
+Script to print hot posts on a given Reddit subreddit.
 """
 
 import requests
