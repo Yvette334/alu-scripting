@@ -1,42 +1,37 @@
 #!/usr/bin/python3
-"""A module containing functions for working with the Reddit API."""
+"""
+Script to print hot posts on a given Reddit subreddit.
+"""
 
 import requests
-import sys
 
-BASE_URL = 'https://www.reddit.com'
-"""Reddit's base API URL."""
 
 def top_ten(subreddit):
-    """Retrieves the title of the top ten posts from a given subreddit."""
-    api_headers = {
-        'Accept': 'application/json',
-        'User-Agent': ' '.join([
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-            'AppleWebKit/537.36 (KHTML, like Gecko)',
-            'Chrome/97.0.4692.71',
-            'Safari/537.36',
-            'Edg/97.0.1072.62'
-        ])
+    """Print the titles of the 10 hottest posts on a given subreddit."""
+    # Construct the URL for the subreddit's hot posts in JSON format
+    url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
+
+    # Define headers for the HTTP request, including User-Agent
+    headers = {
+        "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
     }
-    res = requests.get(
-        f'{BASE_URL}/r/{subreddit}/hot.json?limit=10',
-        headers=api_headers,
-        allow_redirects=False
-    )
-    if res.status_code == 200:
-        hot_posts = res.json().get("data", {}).get("children", [])
-        if hot_posts:
-            for post in hot_posts[:10]:
-                print(post.get("data", {}).get("title", None))
-        else:
-            print(None)
-    else:
-        print(None)
 
-if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        print("Please pass an argument for the subreddit to search.")
-    else:
-        top_ten(sys.argv[1])
+    # Define parameters for the request, limiting the number of posts to 10
+    params = {
+        "limit": 10
+    }
 
+    # Send a GET request to the subreddit's hot posts page
+    response = requests.get(url, headers=headers, params=params,
+                            allow_redirects=False)
+
+    # Check if the response status code indicates a not-found error (404)
+    if response.status_code == 404:
+        print("None")
+        return
+
+    # Parse the JSON response and extract the 'data' section
+    results = response.json().get("data")
+
+    # Print the titles of the top 10 hottest posts
+    [print(c.get("data").get("title")) for c in results.get("children")]
