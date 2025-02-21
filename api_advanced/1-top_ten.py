@@ -19,12 +19,12 @@ def top_ten(subreddit):
 
     response = requests.get(url, headers=headers, allow_redirects=False)
     if response.status_code != 200:
-        print("Ok")
+        print("OK")  # Corrected to uppercase "OK"
         return
     try:
         data = response.json().get('data', {}).get('children', [])
         if not data:
-            print("OK")
+            print("None")  
             return
         for post in data:
             print(post.get('data', {}).get('title'))
