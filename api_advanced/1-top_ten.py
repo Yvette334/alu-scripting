@@ -5,6 +5,7 @@ Script to print hot posts on a given Reddit subreddit.
 
 import requests
 
+
 def top_ten(subreddit):
     """Print the titles of the 10 hottest posts on a given subreddit."""
     # Construct the URL for the subreddit's hot posts in JSON format
@@ -23,19 +24,22 @@ def top_ten(subreddit):
     # Send a GET request to the subreddit's hot posts page
     response = requests.get(url, headers=headers, params=params,
                             allow_redirects=False)
-    
+
     # Check if the request was unsuccessful or returned empty content
     if response.status_code != 200:
         print("None")
         return
-    
+
     try:
         # Parse the JSON response and extract the 'data' section
         results = response.json().get("data", {})
         children = results.get("children", [])
-        
+
         # Print the titles of the top 10 hottest posts
-        for post in children:
-            print(post.get("data", {}).get("title", "None"))
+        if children:
+            for post in children:
+                print(post.get("data", {}).get("title", "None"))
+        else:
+            print("None")
     except ValueError:
         print("None")
