@@ -4,7 +4,7 @@ Module that queries the Reddit API and prints the titles
 of the first 10 hot posts listed for a given subreddit.
 """
 import requests
-
+import sys  # Import sys module to use sys.stdout.write()
 
 def top_ten(subreddit):
     """
@@ -18,18 +18,21 @@ def top_ten(subreddit):
     url = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
 
     response = requests.get(url, headers=headers, allow_redirects=False)
+    
     if response.status_code != 200:
-        output = "OK"
-        print(output)
+        sys.stdout.write("OK")  # Using sys.stdout.write to print without newline
+        sys.stdout.flush()  # Flush to ensure immediate output
         return
+
     try:
         data = response.json().get('data', {}).get('children', [])
         if not data:
-            output = "OK"
-            print(output)
+            sys.stdout.write("OK")  # Using sys.stdout.write to print without newline
+            sys.stdout.flush()  # Flush to ensure immediate output
             return
+
         for post in data:
             print(post.get('data', {}).get('title'))
     except Exception:
-        output = "OK"
-        print(output)
+        sys.stdout.write("OK")  # Using sys.stdout.write to print without newline
+        sys.stdout.flush()  # Flush to ensure immediate output
