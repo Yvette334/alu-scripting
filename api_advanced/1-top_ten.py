@@ -13,28 +13,26 @@ def top_ten(subreddit):
 
     Args:
         subreddit: The subreddit to query
-
-    Returns:
-        None if subreddit is invalid
     """
-    # Set custom User-Agent to avoid Too Many Requests error
     headers = {'User-Agent': 'python:reddit.api.client:v1.0'}
     url = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
 
     try:
         response = requests.get(url, headers=headers, allow_redirects=False)
         
-        # Check if subreddit exists (status code 200)
-        if response.status_code != 200:
-            print(None)
+        if response.status_code == 404:
+            print("None")
             return
-
-        # Parse JSON response
-        data = response.json().get('data', {}).get('children', [])
         
-        # Print titles of first 10 hot posts
-        for post in data:
-            print(post.get('data', {}).get('title'))
-
+        if response.status_code == 200:
+            data = response.json().get('data', {}).get('children', [])
+            if data:
+                for post in data:
+                    print(post.get('data', {}).get('title'))
+            else:
+                print("None")
+        else:
+            print("None")
+            
     except Exception:
-        print(None)
+        print("None")
