@@ -1,37 +1,40 @@
 #!/usr/bin/python3
 """
-This module queries the Reddit API and prints the top 10 hot posts for a given subreddit.
+Module that queries the Reddit API and prints the titles
+of the first 10 hot posts listed for a given subreddit.
 """
-
 import requests
-import sys
+
 
 def top_ten(subreddit):
-    """Prints the titles of the top 10 hot posts of a subreddit"""
+    """
+    Queries the Reddit API and prints the titles of the
+    first 10 hot posts for a given subreddit.
+
+    Args:
+        subreddit: The subreddit to query
+
+    Returns:
+        None if subreddit is invalid
+    """
+    # Set custom User-Agent to avoid Too Many Requests error
+    headers = {'User-Agent': 'python:reddit.api.client:v1.0'}
     url = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
-    headers = {
-        'User-Agent': 'ALX-API-Checker/1.0 (by YourRedditUsername)'  # Use a custom User-Agent
-    }
 
-    response = requests.get(url, headers=headers, allow_redirects=True)
+    try:
+        response = requests.get(url, headers=headers, allow_redirects=False)
+        
+        # Check if subreddit exists (status code 200)
+        if response.status_code != 200:
+            print(None)
+            return
 
-    # Debugging print statements
-    print("Status Code:", response.status_code)
+        # Parse JSON response
+        data = response.json().get('data', {}).get('children', [])
+        
+        # Print titles of first 10 hot posts
+        for post in data:
+            print(post.get('data', {}).get('title'))
 
-    if response.status_code == 200:
-        data = response.json()
-        posts = data.get('data', {}).get('children', [])
-
-        if not posts:
-            print("No posts found.")
-        else:
-            for post in posts:
-                print(post['data'].get('title'))
-    else:
-        print("ok")
-
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Please pass an argument for the subreddit to search.")
-    else:
-        top_ten(sys.argv[1])
+    except Exception:
+        print(None)
