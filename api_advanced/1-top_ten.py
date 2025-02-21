@@ -48,3 +48,4 @@ def top_ten(subreddit):
             print("None")
     except (ValueError, KeyError):
         print("None")
+
