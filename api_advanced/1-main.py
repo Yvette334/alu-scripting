@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 """
-Main module for testing the top_ten function.
+Main module for testing the `top_ten` function.
 
-This script takes a subreddit name as a command line argument
+This script takes a subreddit name as a command line argument,
 and calls the `top_ten` function to display the top 10 hot posts
-for the given subreddit.
+for the given subreddit. If no argument is passed, it will prompt
+the user to provide a subreddit name.
 """
 import sys
 
