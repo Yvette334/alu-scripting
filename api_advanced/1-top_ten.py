@@ -3,14 +3,14 @@
 This module queries the Reddit API and prints the top 10 hot posts for a given subreddit.
 """
 
-import requests
-import sys
 import io
 import sys
+import requests
 from requests.auth import HTTPBasicAuth
 
 # Ensure that the output uses UTF-8
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
 
 def top_ten(subreddit):
     """Prints the titles of the top 10 hot posts of a subreddit"""
@@ -50,9 +50,9 @@ def top_ten(subreddit):
     else:
         print("None")
 
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Please pass an argument for the subreddit to search.")
     else:
         top_ten(sys.argv[1])
-
