@@ -30,4 +30,3 @@ def top_ten(subreddit):
     else:
         # Print None if subreddit does not exist
         print(None)
-
