@@ -30,6 +30,6 @@ def top_ten(subreddit):
             else:
                 print("None")
         else:
-            print("OK")            
+            print("None")            
     except Exception:
-        print("OK")
+        print("None")
