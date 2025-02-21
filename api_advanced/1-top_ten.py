@@ -32,14 +32,19 @@ def top_ten(subreddit):
 
     try:
         # Parse the JSON response and extract the 'data' section
-        results = response.json().get("data", {})
+        json_data = response.json()
+        results = json_data.get("data", {})
         children = results.get("children", [])
 
         # Print the titles of the top 10 hottest posts
         if children:
-            for post in children:
-                print(post.get("data", {}).get("title", "None"))
+            for post in children[:10]:
+                title = post.get("data", {}).get("title")
+                if title:
+                    print(title)
+                else:
+                    print("None")
         else:
             print("None")
-    except ValueError:
+    except (ValueError, KeyError):
         print("None")
