@@ -1,32 +1,22 @@
 #!/usr/bin/python3
-"""
-Script that fetches the top 10 hot posts for a given subreddit.
-"""
-
+"""Print the titles of the first 10Hot Posts"""
 import requests
 
-def top_ten(subreddit):
-    """
-    Queries the Reddit API and prints the titles of the first 10 hot posts
-    for a given subreddit.
 
-    Args:
-        subreddit (str): The name of the subreddit to query.
-    
-    Returns:
-        None: If the subreddit doesn't exist or there's an error.
-    """
+def top_ten(subreddit):
+    """The top ten titles"""
     headers = {'User-Agent': 'MyAPI/0.0.1'}
-    subreddit_url = f"https://reddit.com/r/{subreddit}/hot.json"
-    
-    # Request without following redirects to avoid redirects to search results
-    response = requests.get(subreddit_url, headers=headers, allow_redirects=False)
-    
-    # Check if the status code is 200 (OK) to confirm subreddit exists
+    url = "https://reddit.com/r/{}.json".format(subreddit)
+    response = requests.get(url, headers=headers)
+
     if response.status_code == 200:
         json_data = response.json()
         for i in range(10):
-            print(json_data['data']['children'][i]['data']['title'])
+            print(
+                    json_data.get('data')
+                    .get('children')[i]
+                    .get('data')
+                    .get('title')
+                )
     else:
-        # Print None if subreddit does not exist
         print(None)
