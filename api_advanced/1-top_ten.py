@@ -29,4 +29,4 @@ def top_ten(subreddit):
         for post in data:
             print(post.get('data', {}).get('title'))
     except Exception:
-        print("None")
+        print("Ok")
