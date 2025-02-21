@@ -1,41 +1,22 @@
 #!/usr/bin/python3
-'''A module containing functions for working with the Reddit API.
-'''
+"""Print the titles of the first 10Hot Posts"""
 import requests
 
 
-BASE_URL = 'https://www.reddit.com'
-'''Reddit's base API URL.
-'''
-
-
 def top_ten(subreddit):
-    '''Retrieves the title of the top ten posts from a given subreddit.
-    '''
-    api_headers = {
-        'Accept': 'application/json',
-        'User-Agent': ' '.join([
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-            'AppleWebKit/537.36 (KHTML, like Gecko)',
-            'Chrome/97.0.4692.71',
-            'Safari/537.36',
-            'Edg/97.0.1072.62'
-        ])
-    }
-    sort = 'top'
-    limit = 10
-    res = requests.get(
-        '{}/r/{}/.json?sort={}&limit={}'.format(
-            BASE_URL,
-            subreddit,
-            sort,
-            limit
-        ),
-        headers=api_headers,
-        allow_redirects=False
-    )
-    if res.status_code == 200:
-        for post in res.json()['data']['children'][0:10]:
-            print(post['data']['title'])
+    """The top ten titles"""
+    headers = {'User-Agent': 'MyAPI/0.0.1'}
+    url = "https://reddit.com/r/{}.json".format(subreddit)
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        json_data = response.json()
+        for i in range(10):
+            print(
+                    json_data.get('data')
+                    .get('children')[i]
+                    .get('data')
+                    .get('title')
+                )
     else:
-        print(ok)
+        print(None)
